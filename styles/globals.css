@@ -1,0 +1,33 @@
+html,
+body {
+	padding: 0;
+	margin: 0;
+	font-family: 'Josefin Sans', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans,
+		Droid Sans, Helvetica Neue, sans-serif;
+	box-sizing: border-box;
+
+	background-color: #fafafa;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
+}
+
+button {
+	padding: 6px 12px;
+	border-radius: 3px;
+	border: 1px solid #bbb;
+}
+
+/*.container,*/
+/*.todo-title,*/
+/*.container .inner {*/
+/*	transition: 0.2s background-color ease-in-out;*/
+/*}*/
