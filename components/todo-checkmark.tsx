@@ -1,7 +1,7 @@
-import React, { FC, useContext } from 'react';
+import React, { FC } from 'react';
 import classNames from 'classnames';
 import { IconCheck } from './icons';
-import { ThemeContext } from './theme';
+import { selectIsDarkMode, useAppSelector } from '../state';
 
 export interface TodoCheckmarkProps {
 	checked: boolean;
@@ -10,7 +10,7 @@ export interface TodoCheckmarkProps {
 }
 
 export const TodoCheckmark: FC<TodoCheckmarkProps> = ({ checked, size = 20, onClick }) => {
-	const darkTheme = useContext(ThemeContext) === 'dark';
+	const darkTheme = useAppSelector(selectIsDarkMode);
 
 	return (
 		<>

@@ -1,15 +1,13 @@
-import { FC, useContext, useState } from 'react';
+import { FC, useState } from 'react';
 import { TodoCheckmark } from './todo-checkmark';
-import { ThemeContext } from './theme';
 import classNames from 'classnames';
+import { addTodo, selectIsDarkMode, useAppDispatch, useAppSelector } from '../state';
 
-export interface NewTodoFormProps {
-	onCreate: (todo: { title: string }) => void;
-}
+export const NewTodoForm: FC<{}> = () => {
+	const dispatch = useAppDispatch();
+	const darkTheme = useAppSelector(selectIsDarkMode);
 
-export const NewTodoForm: FC<NewTodoFormProps> = ({ onCreate }) => {
 	const [title, setTitle] = useState('');
-	const darkTheme = useContext(ThemeContext) === 'dark';
 
 	return (
 		<>
@@ -24,7 +22,7 @@ export const NewTodoForm: FC<NewTodoFormProps> = ({ onCreate }) => {
 						if (e.key === 'Enter') {
 							const value = title.trim();
 							if (value.length > 0) {
-								onCreate({ title: value });
+								dispatch(addTodo(value));
 								setTitle('');
 							}
 						}

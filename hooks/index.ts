@@ -1,21 +1,5 @@
 import { useEffect, useState } from 'react';
 
-export function usePrefersDarkMode() {
-	const [darkMode, setDarkMode] = useState(false);
-
-	useEffect(() => {
-		const onMediaChange = (e: MediaQueryListEvent) => setDarkMode(e.matches);
-		const media = window.matchMedia('(prefers-color-scheme: dark)');
-		media.addEventListener('change', onMediaChange);
-
-		setDarkMode(media.matches);
-
-		return () => media?.removeEventListener('change', onMediaChange);
-	}, []);
-
-	return darkMode;
-}
-
 export function useDesktopResolution() {
 	const [desktopMode, setDesktopMode] = useState(false);
 

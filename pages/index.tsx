@@ -1,54 +1,87 @@
 import Head from 'next/head';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import classNames from 'classnames';
+
 import { TodoList } from '../components/todo-list';
-import { ThemeContext } from '../components/theme';
 import bgMobileDark from '../assets/bg-mobile-dark.jpg';
 import bgMobileLight from '../assets/bg-mobile-light.jpg';
 import bgDesktopDark from '../assets/bg-desktop-dark.jpg';
 import bgDesktopLight from '../assets/bg-desktop-light.jpg';
-import { IconMoon, IconSun } from '../components/icons';
-import { useDesktopResolution, usePrefersDarkMode } from '../hooks';
+import { AppContext, appReducer, initialAppState, SupportedThemes } from '../state';
+import { ThemeSwitch } from '../components/theme-switch';
 
 export default function Home() {
-	const [darkMode, setDarkMode] = useState(false);
-	const darkModePreferred = usePrefersDarkMode();
-	const desktopMode = useDesktopResolution();
+	const initialTodos = [
+		{
+			userId: 1,
+			id: 1,
+			title: 'Complete online JavaScript course',
+			completed: true,
+		},
+		{
+			userId: 1,
+			id: 2,
+			title: 'Jog around the park 3x',
+			completed: false,
+		},
+		{
+			userId: 1,
+			id: 3,
+			title: '10 minutes meditation',
+			completed: false,
+		},
+		{
+			userId: 1,
+			id: 4,
+			title: 'Read for 1 hour',
+			completed: false,
+		},
+		{
+			userId: 1,
+			id: 5,
+			title: 'Pick up groceries',
+			completed: false,
+		},
+		{
+			userId: 1,
+			id: 6,
+			title: 'Complete Todo App on Frontend Mentor',
+			completed: false,
+		},
+	];
+	const [state, dispatch] = useReducer(appReducer, {
+		...initialAppState,
+		todos: { ...initialAppState.todos, todos: initialTodos },
+	});
+	const darkMode = state.theme === SupportedThemes.Dark;
 
-	useEffect(() => setDarkMode(darkModePreferred), [darkModePreferred]);
+	if (process.env.NODE_ENV === 'development') {
+		useEffect(() => console.log('App state:', state), [state]);
+	}
 
 	return (
 		<>
-			<ThemeContext.Provider value={darkMode ? 'dark' : 'light'}>
-				<Head>
-					<title>{'Todo App'}</title>
-					<meta name="description" content="Todo App" />
-					<link rel="icon" href="/favicon-32x32.png" />
-					<link rel="preconnect" href="https://fonts.googleapis.com" />
-					<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin={'annonymous'} />
-					<link
-						href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap"
-						rel="stylesheet"
-					/>
-				</Head>
+			<Head>
+				<title>{'Todo App'}</title>
+				<meta name="description" content="Todo App" />
+				<link rel="icon" href="/favicon-32x32.png" />
+				<link rel="preconnect" href="https://fonts.googleapis.com" />
+				<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin={'annonymous'} />
+				<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap" rel="stylesheet" />
+			</Head>
+			<AppContext.Provider value={{ state, dispatch }}>
 				<div className={classNames('container', { dark: darkMode })}>
 					<header className="header">
 						<div className="title-wrapper">
 							<span className="title">TODO</span>
-							<button className="theme-switch" onClick={() => setDarkMode((prevState) => !prevState)}>
-								{darkMode ? (
-									<IconSun size={desktopMode ? 26 : 20} color="white" />
-								) : (
-									<IconMoon size={desktopMode ? 26 : 20} />
-								)}
-							</button>
+							<ThemeSwitch />
 						</div>
 					</header>
 					<main className="todo-list-wrapper">
 						<TodoList />
 					</main>
 				</div>
-			</ThemeContext.Provider>
+			</AppContext.Provider>
 			<style jsx>
 				{`
 					.container {
@@ -78,15 +111,6 @@ export default function Home() {
 						font-weight: 700;
 						line-height: 100%;
 						letter-spacing: 12px;
-					}
-
-					.theme-switch {
-						border: none;
-						background: none;
-						outline: none;
-						cursor: pointer;
-						padding: 0;
-						line-height: 0;
 					}
 
 					.header {

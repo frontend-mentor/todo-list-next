@@ -1,20 +1,26 @@
-import React, { FC, useContext } from 'react';
+import React, { Dispatch, FC } from 'react';
 import classNames from 'classnames';
-import { ThemeContext } from './theme';
-
-export type FilterState = 'all' | 'active' | 'completed';
+import {
+	Action,
+	FilterState,
+	filterTodos,
+	selectFilter,
+	selectIsDarkMode,
+	useAppDispatch,
+	useAppSelector,
+} from '../state';
 
 const supportedFilters: { label: string; filter: FilterState }[] = [
-	{ label: 'All', filter: 'all' },
-	{ label: 'Active', filter: 'active' },
-	{ label: 'Completed', filter: 'completed' },
+	{ label: 'All', filter: FilterState.All },
+	{ label: 'Active', filter: FilterState.Active },
+	{ label: 'Completed', filter: FilterState.Completed },
 ];
 
-export const TodoListFilters: FC<{ filter: FilterState; onFilter?(filter: FilterState): void }> = ({
+const TodoListFilters: FC<{ darkTheme: boolean; filter: string; dispatch: Dispatch<Action> }> = ({
+	darkTheme,
 	filter,
-	onFilter,
+	dispatch,
 }) => {
-	const darkTheme = useContext(ThemeContext) === 'dark';
 	return (
 		<>
 			<div className={classNames('container', { dark: darkTheme })}>
@@ -22,7 +28,7 @@ export const TodoListFilters: FC<{ filter: FilterState; onFilter?(filter: Filter
 					<button
 						key={item.filter}
 						className={classNames({ active: filter === item.filter })}
-						onClick={() => onFilter?.(item.filter)}
+						onClick={() => dispatch(filterTodos(item.filter))}
 					>
 						{item.label}
 					</button>
@@ -84,3 +90,12 @@ export const TodoListFilters: FC<{ filter: FilterState; onFilter?(filter: Filter
 		</>
 	);
 };
+
+export default function TodoListFiltersContainer() {
+	const dispatch = useAppDispatch();
+
+	const darkTheme = useAppSelector(selectIsDarkMode);
+	const filter = useAppSelector(selectFilter);
+
+	return <TodoListFilters filter={filter} darkTheme={darkTheme} dispatch={dispatch} />;
+}

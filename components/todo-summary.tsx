@@ -1,23 +1,20 @@
-import React, { FC, useContext } from 'react';
-import { ThemeContext } from './theme';
+import React, { FC } from 'react';
 import classNames from 'classnames';
-import { FilterState, TodoListFilters } from './todo-list-filters';
+import { removeCompletedTodos, selectIsDarkMode, selectItemsRemaining, useAppDispatch, useAppSelector } from '../state';
+import TodoListFilters from './todo-list-filters';
 
-export const TodoSummary: FC<{
-	itemsRemaining: number;
-	onClearCompleted?(): void;
-	filterVisible: boolean;
-	filter: FilterState;
-	onFilter?(filter: FilterState): void;
-}> = ({ itemsRemaining, onClearCompleted, filterVisible, filter, onFilter }) => {
-	const darkTheme = useContext(ThemeContext) === 'dark';
+export const TodoSummary: FC<{ filterVisible: boolean }> = ({ filterVisible }) => {
+	const dispatch = useAppDispatch();
+
+	const darkTheme = useAppSelector(selectIsDarkMode);
+	const itemsRemaining = useAppSelector(selectItemsRemaining);
 
 	return (
 		<>
 			<div className={classNames('container', { dark: darkTheme })}>
 				<div className="items-remaining">{itemsRemaining} items left</div>
-				{filterVisible && <TodoListFilters filter={filter} onFilter={onFilter} />}
-				<button className="clear-completed" onClick={() => onClearCompleted?.()}>
+				{filterVisible && <TodoListFilters />}
+				<button className="clear-completed" onClick={() => dispatch(removeCompletedTodos())}>
 					Clear Completed
 				</button>
 			</div>

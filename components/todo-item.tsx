@@ -1,25 +1,19 @@
-import React, { FC, KeyboardEventHandler, useContext, useRef, useState } from 'react';
+import React, { FC, KeyboardEventHandler, useRef, useState } from 'react';
 import { TodoCheckmark } from './todo-checkmark';
-import { Todo } from '../pages/api/todos';
 import classNames from 'classnames';
-import { ThemeContext } from './theme';
 import { IconCross } from './icons';
+import { removeTodo, selectIsDarkMode, Todo, toggleTodo, updateTodo, useAppDispatch, useAppSelector } from '../state';
 
-export interface TodoItemProps {
-	todo: Todo;
-
-	onUpdateTodo?(todo: Todo): void;
-
-	onDeleteTodo?(todo: Todo): void;
-
-	onToggleTodo?(todo: Todo): void;
-}
-
-export const TodoItem: FC<TodoItemProps> = ({ todo, onUpdateTodo, onDeleteTodo, onToggleTodo }) => {
+export const TodoItem: FC<{ todo: Todo }> = ({ todo }) => {
+	const dispatch = useAppDispatch();
 	const [editableTodoTitle, setEditableTodoTitle] = useState(todo.title);
 	const [deleteIconVisible, setDeleteIconVisible] = useState(false);
 	const previousTodoTitle = useRef(todo.title);
-	const darkTheme = useContext(ThemeContext) === 'dark';
+	const darkTheme = useAppSelector(selectIsDarkMode);
+
+	const onUpdateTodo = (todo: Todo) => dispatch(updateTodo(todo.id, { title: todo.title }));
+	const onToggleTodo = (todo: Todo) => dispatch(toggleTodo(todo.id, !todo.completed));
+	const onDeleteTodo = (todo: Todo) => dispatch(removeTodo(todo.id));
 
 	const onTodoTitleKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
 		if (e.key === 'Enter') {
@@ -27,7 +21,7 @@ export const TodoItem: FC<TodoItemProps> = ({ todo, onUpdateTodo, onDeleteTodo, 
 			if (value.length > 0) {
 				setEditableTodoTitle('');
 				previousTodoTitle.current = value;
-				onUpdateTodo?.({ ...todo, title: value });
+				onUpdateTodo({ ...todo, title: value });
 			}
 		} else if (e.key.startsWith('Esc')) {
 			setEditableTodoTitle(previousTodoTitle.current);
@@ -41,7 +35,7 @@ export const TodoItem: FC<TodoItemProps> = ({ todo, onUpdateTodo, onDeleteTodo, 
 				onMouseOver={() => setDeleteIconVisible(true)}
 				onMouseLeave={() => setDeleteIconVisible(false)}
 			>
-				<TodoCheckmark checked={todo.completed} onClick={() => onToggleTodo?.(todo)} />
+				<TodoCheckmark checked={todo.completed} onClick={() => onToggleTodo(todo)} />
 
 				<input
 					className={classNames('todo-title', { completed: todo.completed })}
@@ -115,7 +109,7 @@ export const TodoItem: FC<TodoItemProps> = ({ todo, onUpdateTodo, onDeleteTodo, 
 };
 
 const DeleteIcon: FC<{ todo: Todo; onDeleteTodo?(todo: Todo): void }> = ({ todo, onDeleteTodo }) => {
-	const darkTheme = useContext(ThemeContext) === 'dark';
+	const darkTheme = useAppSelector(selectIsDarkMode);
 	let color = todo.completed ? (darkTheme ? '494C6B' : '#5B5E7E') : '';
 	return <IconCross size={12} color={color} onClick={() => onDeleteTodo?.(todo)} />;
 };

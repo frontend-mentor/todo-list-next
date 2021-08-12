@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-export const IconSun: FC<{ size: number; color: string }> = ({ size = 20, color = 'white' }) => {
+export const IconSun: FC<{ size: number; color?: string }> = ({ size = 20, color = 'white' }) => {
 	return (
 		<svg width={size} height={size} viewBox={'0 0 26 26'}>
 			<path
