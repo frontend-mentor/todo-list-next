@@ -55,9 +55,11 @@ export default function Home() {
 	});
 	const darkMode = state.theme === SupportedThemes.Dark;
 
-	if (process.env.NODE_ENV === 'development') {
-		useEffect(() => console.log('App state:', state), [state]);
-	}
+	useEffect(() => {
+		if (process.env.NODE_ENV === 'development') {
+			console.log('App state:', state);
+		}
+	}, [state]);
 
 	return (
 		<>

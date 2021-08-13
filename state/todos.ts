@@ -4,7 +4,6 @@ import { AppState } from './index';
 
 // Models
 
-// TODO: Find a better name
 export enum FilterState {
 	All = 'all',
 	Active = 'active',

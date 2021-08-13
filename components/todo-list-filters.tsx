@@ -1,14 +1,6 @@
-import React, { Dispatch, FC } from 'react';
+import React, { FC } from 'react';
 import classNames from 'classnames';
-import {
-	Action,
-	FilterState,
-	filterTodos,
-	selectFilter,
-	selectIsDarkMode,
-	useAppDispatch,
-	useAppSelector,
-} from '../state';
+import { FilterState, filterTodos, selectFilter, selectIsDarkMode, useAppDispatch, useAppSelector } from '../state';
 
 const supportedFilters: { label: string; filter: FilterState }[] = [
 	{ label: 'All', filter: FilterState.All },
@@ -16,11 +8,12 @@ const supportedFilters: { label: string; filter: FilterState }[] = [
 	{ label: 'Completed', filter: FilterState.Completed },
 ];
 
-const TodoListFilters: FC<{ darkTheme: boolean; filter: string; dispatch: Dispatch<Action> }> = ({
-	darkTheme,
-	filter,
-	dispatch,
-}) => {
+export const TodoListFilters: FC = () => {
+	const dispatch = useAppDispatch();
+
+	const darkTheme = useAppSelector(selectIsDarkMode);
+	const filter = useAppSelector(selectFilter);
+
 	return (
 		<>
 			<div className={classNames('container', { dark: darkTheme })}>
@@ -90,12 +83,3 @@ const TodoListFilters: FC<{ darkTheme: boolean; filter: string; dispatch: Dispat
 		</>
 	);
 };
-
-export default function TodoListFiltersContainer() {
-	const dispatch = useAppDispatch();
-
-	const darkTheme = useAppSelector(selectIsDarkMode);
-	const filter = useAppSelector(selectFilter);
-
-	return <TodoListFilters filter={filter} darkTheme={darkTheme} dispatch={dispatch} />;
-}

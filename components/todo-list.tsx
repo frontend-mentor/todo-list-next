@@ -14,7 +14,7 @@ import {
 	useAppDispatch,
 	useAppSelector,
 } from '../state';
-import TodoListFilters from './todo-list-filters';
+import { TodoListFilters } from './todo-list-filters';
 import { Loader } from './loader';
 
 export const TodoList: FC = () => {
@@ -29,18 +29,19 @@ export const TodoList: FC = () => {
 	useEffect(function fetchTodos() {
 		const requestController = new AbortController();
 
-		dispatch(fetchTodosPending());
+		if (process.env.LIVE_TODOS) {
+			dispatch(fetchTodosPending());
 
-		fetch('/api/todos', { signal: requestController.signal })
-			.then((response) =>
-				response.ok ? response.json() : Promise.reject(new Error(`Request failed. Http status: ${response.status}`))
-			)
-			.then((todos) => dispatch(fetchTodosFulfilled(todos.slice(0, 28))))
-			.catch((err) => {
-				console.error(err);
-				dispatch(fetchTodosRejected(err));
-			});
-
+			fetch('/api/todos', { signal: requestController.signal })
+				.then((response) =>
+					response.ok ? response.json() : Promise.reject(new Error(`Request failed. Http status: ${response.status}`))
+				)
+				.then((todos) => dispatch(fetchTodosFulfilled(todos.slice(0, 28))))
+				.catch((err) => {
+					console.error(err);
+					dispatch(fetchTodosRejected(err));
+				});
+		}
 		return () => requestController.abort();
 	}, []);
 
