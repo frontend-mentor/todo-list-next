@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { removeCompletedTodos, selectIsDarkMode, selectItemsRemaining, useAppDispatch, useAppSelector } from '../state';
 import { TodoListFilters } from './todo-list-filters';
 
-export const TodoSummary: FC<{ filterVisible: boolean }> = ({ filterVisible }) => {
+export const TodoSummary: FC = ({ children }) => {
 	const dispatch = useAppDispatch();
 
 	const darkTheme = useAppSelector(selectIsDarkMode);
@@ -13,7 +13,7 @@ export const TodoSummary: FC<{ filterVisible: boolean }> = ({ filterVisible }) =
 		<>
 			<div className={classNames('container', { dark: darkTheme })}>
 				<div className="items-remaining">{itemsRemaining} items left</div>
-				{filterVisible && <TodoListFilters />}
+				{children}
 				<button className="clear-completed" onClick={() => dispatch(removeCompletedTodos())}>
 					Clear Completed
 				</button>

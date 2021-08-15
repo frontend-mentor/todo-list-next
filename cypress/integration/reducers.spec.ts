@@ -1,6 +1,5 @@
 import {
 	appReducer,
-	FetchTodosPendingAction,
 	FilterState,
 	initialAppState,
 	SupportedThemes,
@@ -8,7 +7,6 @@ import {
 	themeReducer,
 	todosInitialState,
 	todosReducer,
-	TodosState,
 } from '../../state/index';
 import { produce } from 'immer';
 

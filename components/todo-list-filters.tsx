@@ -16,7 +16,7 @@ export const TodoListFilters: FC = () => {
 
 	return (
 		<>
-			<div className={classNames('container', { dark: darkTheme })}>
+			<div className={classNames('filters-container', { dark: darkTheme })}>
 				{supportedFilters.map((item) => (
 					<button
 						key={item.filter}
@@ -29,7 +29,7 @@ export const TodoListFilters: FC = () => {
 			</div>
 			<style jsx>
 				{`
-					.container {
+					.filters-container {
 						display: flex;
 						align-items: center;
 						justify-content: center;
@@ -44,7 +44,7 @@ export const TodoListFilters: FC = () => {
 						box-shadow: 0 35px 50px -15px rgba(194, 195, 214, 0.5);
 					}
 
-					.container button {
+					.filters-container button {
 						border: none;
 						outline: none;
 						background: none;
@@ -55,22 +55,29 @@ export const TodoListFilters: FC = () => {
 						color: #9495a5;
 					}
 
-					.container button:not(.active):hover {
+					.filters-container button:not(.active):hover {
 						color: #494c6b;
 					}
 
-					.container button.active {
+					.filters-container button.active {
 						color: #3a7cfd;
+					}
+
+					@media (min-width: 592px) {
+						.filters-container {
+							margin-left: 0;
+							margin-right: 0;
+						}
 					}
 
 					// Dark theme
 
-					.dark.container {
+					.dark.filters-container {
 						background-color: #25273d;
 						box-shadow: none;
 					}
 
-					.dark.container button:not(.active):hover {
+					.dark.filters-container button:not(.active):hover {
 						color: #e3e4f1;
 					}
 

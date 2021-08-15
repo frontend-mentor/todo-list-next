@@ -11,7 +11,7 @@ export const NewTodoForm: FC<{}> = () => {
 
 	return (
 		<>
-			<div className={classNames('container', { dark: darkTheme })}>
+			<div className={classNames('form-container', { dark: darkTheme })}>
 				<TodoCheckmark checked={false} />
 				<input
 					value={title}
@@ -31,7 +31,7 @@ export const NewTodoForm: FC<{}> = () => {
 			</div>
 			<style jsx>
 				{`
-					.container {
+					.form-container {
 						margin: -102px 24px 24px;
 						padding: 14px 20px;
 
@@ -66,7 +66,7 @@ export const NewTodoForm: FC<{}> = () => {
 						font: 400 12px/1 Josefin Sans, sans-serif;
 					}
 
-					.dark.container {
+					.dark.form-container {
 						background-color: #25273d;
 						color: #767992;
 					}
@@ -76,8 +76,8 @@ export const NewTodoForm: FC<{}> = () => {
 					}
 
 					// Media
-					@media all and (min-width: 540px) {
-						.container {
+					@media all and (min-width: 592px) {
+						.form-container {
 							margin-top: -142px;
 							height: 64px;
 							gap: 24px;
@@ -85,6 +85,13 @@ export const NewTodoForm: FC<{}> = () => {
 
 						.todo-title {
 							font-size: 18px;
+						}
+					}
+
+					@media (min-width: 592px) {
+						.form-container {
+							margin-left: 0;
+							margin-right: 0;
 						}
 					}
 				`}

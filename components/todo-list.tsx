@@ -46,7 +46,7 @@ export const TodoList: FC = () => {
 	}, []);
 
 	useEffect(function toggleInlineFilters() {
-		const media = matchMedia('(min-width: 540px)');
+		const media = matchMedia('(min-width: 592px)');
 		const onMediaChange = (e: MediaQueryListEvent) => setInlineFilterVisible(e.matches);
 		media.addEventListener('change', onMediaChange);
 		setInlineFilterVisible(media.matches);
@@ -57,20 +57,20 @@ export const TodoList: FC = () => {
 		<>
 			{fetchState.loading && <Loader />}
 			<NewTodoForm />
-			<div className={classNames('container', { dark: darkTheme })}>
+			<div className={classNames('items-container', { dark: darkTheme })}>
 				<div className="scroll-container">
 					{filteredTodos.map((todo) => (
 						<TodoItem key={todo.id} todo={todo} />
 					))}
 				</div>
-				<TodoSummary filterVisible={inlineFilterVisible} />
+				<TodoSummary>{inlineFilterVisible && <TodoListFilters />}</TodoSummary>
 			</div>
 			{!inlineFilterVisible && <TodoListFilters />}
 
 			<div className="drag-hint">Drag and drop to reorder list</div>
 			<style jsx>
 				{`
-					.container {
+					.items-container {
 						margin: 0 24px 16px;
 
 						min-height: 100px;
@@ -86,7 +86,7 @@ export const TodoList: FC = () => {
 
 					.scroll-container {
 						overflow-y: auto;
-						max-height: calc(100vh - 380px);
+						max-height: 312px;
 					}
 
 					.drag-hint {
@@ -98,13 +98,26 @@ export const TodoList: FC = () => {
 					}
 
 					// Dark theme
-					.dark.container {
+					.dark.items-container {
 						box-shadow: none;
 						background-color: #25273d;
 					}
 
 					.dark .drag-hint {
 						color: #5b5e7e;
+					}
+
+					// Media
+
+					@media (min-width: 592px) {
+						.scroll-container {
+							max-height: calc(100vh - 380px);
+						}
+
+						.items-container {
+							margin-left: 0;
+							margin-right: 0;
+						}
 					}
 				`}
 			</style>

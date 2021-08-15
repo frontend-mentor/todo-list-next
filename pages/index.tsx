@@ -132,7 +132,7 @@ export default function Home() {
 						background-color: #161721;
 					}
 
-					@media all and (min-width: 540px) {
+					@media all and (min-width: 592px) {
 						.header {
 							height: 300px;
 							background: transparent url(${bgDesktopLight.src}) 0 0 / cover no-repeat;
@@ -151,7 +151,6 @@ export default function Home() {
 
 							display: flex;
 							justify-content: space-between;
-							padding: 0 24px;
 						}
 
 						.title-wrapper .title {

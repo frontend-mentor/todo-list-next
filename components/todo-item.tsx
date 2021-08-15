@@ -92,7 +92,7 @@ export const TodoItem: FC<{ todo: Todo }> = ({ todo }) => {
 					}
 
 					// Media
-					@media all and (min-width: 540px) {
+					@media all and (min-width: 592px) {
 						.container {
 							height: 64px;
 							gap: 24px;

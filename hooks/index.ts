@@ -4,7 +4,7 @@ export function useDesktopResolution() {
 	const [desktopMode, setDesktopMode] = useState(false);
 
 	useEffect(function watchMediaDesktopResolution() {
-		const media = window.matchMedia('(min-width: 540px)');
+		const media = window.matchMedia('(min-width: 592px)');
 		const onMediaChange = (e: MediaQueryListEvent) => setDesktopMode(e.matches);
 		media.addEventListener('change', onMediaChange);
 
