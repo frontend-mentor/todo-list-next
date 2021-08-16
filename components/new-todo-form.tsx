@@ -3,15 +3,15 @@ import { TodoCheckmark } from './todo-checkmark';
 import classNames from 'classnames';
 import { addTodo, selectIsDarkMode, useAppDispatch, useAppSelector } from '../state';
 
-export const NewTodoForm: FC<{}> = () => {
+export const NewTodoForm: FC = () => {
 	const dispatch = useAppDispatch();
-	const darkTheme = useAppSelector(selectIsDarkMode);
+	const darkMode = useAppSelector(selectIsDarkMode);
 
 	const [title, setTitle] = useState('');
 
 	return (
 		<>
-			<div className={classNames('form-container', { dark: darkTheme })}>
+			<div className={classNames('form-container', { dark: darkMode })}>
 				<TodoCheckmark checked={false} />
 				<input
 					value={title}

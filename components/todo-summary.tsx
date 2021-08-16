@@ -6,12 +6,12 @@ import { TodoListFilters } from './todo-list-filters';
 export const TodoSummary: FC = ({ children }) => {
 	const dispatch = useAppDispatch();
 
-	const darkTheme = useAppSelector(selectIsDarkMode);
+	const darkMode = useAppSelector(selectIsDarkMode);
 	const itemsRemaining = useAppSelector(selectItemsRemaining);
 
 	return (
 		<>
-			<div className={classNames('container', { dark: darkTheme })}>
+			<div className={classNames('container', { dark: darkMode })}>
 				<div className="items-remaining">{itemsRemaining} items left</div>
 				{children}
 				<button className="clear-completed" onClick={() => dispatch(removeCompletedTodos())}>

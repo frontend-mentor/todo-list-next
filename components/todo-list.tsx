@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, PropsWithChildren, useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import { TodoItem } from './todo-item';
@@ -16,15 +16,15 @@ import {
 } from '../state';
 import { TodoListFilters } from './todo-list-filters';
 import { Loader } from './loader';
+import { useMediaQuery } from '../hooks';
 
 export const TodoList: FC = () => {
 	const dispatch = useAppDispatch();
 
 	const filteredTodos = useAppSelector(selectFilteredTodos);
-	const darkTheme = useAppSelector(selectIsDarkMode);
+	const darkMode = useAppSelector(selectIsDarkMode);
 	const fetchState = useAppSelector(selectFetchTodosState);
-
-	const [inlineFilterVisible, setInlineFilterVisible] = useState(false);
+	const inlineFilterVisible = useMediaQuery('(min-width: 592px)');
 
 	useEffect(function fetchTodos() {
 		const requestController = new AbortController();
@@ -45,22 +45,16 @@ export const TodoList: FC = () => {
 		return () => requestController.abort();
 	}, []);
 
-	useEffect(function toggleInlineFilters() {
-		const media = matchMedia('(min-width: 592px)');
-		const onMediaChange = (e: MediaQueryListEvent) => setInlineFilterVisible(e.matches);
-		media.addEventListener('change', onMediaChange);
-		setInlineFilterVisible(media.matches);
-		return () => media.removeEventListener('change', onMediaChange);
-	}, []);
-
 	return (
 		<>
 			{fetchState.loading && <Loader />}
 			<NewTodoForm />
-			<div className={classNames('items-container', { dark: darkTheme })}>
+			<div className={classNames('items-container', { dark: darkMode })}>
 				<div className="scroll-container">
 					{filteredTodos.map((todo) => (
-						<TodoItem key={todo.id} todo={todo} />
+						<DraggableTodoItem key={todo.id}>
+							<TodoItem todo={todo} />
+						</DraggableTodoItem>
 					))}
 				</div>
 				<TodoSummary>{inlineFilterVisible && <TodoListFilters />}</TodoSummary>
@@ -108,7 +102,6 @@ export const TodoList: FC = () => {
 					}
 
 					// Media
-
 					@media (min-width: 592px) {
 						.scroll-container {
 							max-height: calc(100vh - 380px);
@@ -124,3 +117,7 @@ export const TodoList: FC = () => {
 		</>
 	);
 };
+
+function DraggableTodoItem({ children }: PropsWithChildren<any>) {
+	return <>{children}</>;
+}

@@ -6,10 +6,10 @@ import { removeTodo, selectIsDarkMode, Todo, toggleTodo, updateTodo, useAppDispa
 
 export const TodoItem: FC<{ todo: Todo }> = ({ todo }) => {
 	const dispatch = useAppDispatch();
+	const darkMode = useAppSelector(selectIsDarkMode);
+
 	const [editableTodoTitle, setEditableTodoTitle] = useState(todo.title);
-	const [deleteIconVisible, setDeleteIconVisible] = useState(false);
 	const previousTodoTitle = useRef(todo.title);
-	const darkTheme = useAppSelector(selectIsDarkMode);
 
 	const onUpdateTodo = (todo: Todo) => dispatch(updateTodo(todo.id, { title: todo.title }));
 	const onToggleTodo = (todo: Todo) => dispatch(toggleTodo(todo.id, !todo.completed));
@@ -30,11 +30,7 @@ export const TodoItem: FC<{ todo: Todo }> = ({ todo }) => {
 
 	return (
 		<>
-			<div
-				className={classNames('container', { dark: darkTheme })}
-				onMouseOver={() => setDeleteIconVisible(true)}
-				onMouseLeave={() => setDeleteIconVisible(false)}
-			>
+			<div className={classNames('todo-container', { dark: darkMode })}>
 				<TodoCheckmark checked={todo.completed} onClick={() => onToggleTodo(todo)} />
 
 				<input
@@ -45,11 +41,13 @@ export const TodoItem: FC<{ todo: Todo }> = ({ todo }) => {
 					onKeyDown={onTodoTitleKeyDown}
 					onFocus={(e) => e.currentTarget.select()}
 				/>
-				{deleteIconVisible && <DeleteIcon todo={todo} onDeleteTodo={onDeleteTodo} />}
+				<div className="delete-icon">
+					<DeleteTodoIcon onClick={() => onDeleteTodo(todo)} />
+				</div>
 			</div>
 			<style jsx>
 				{`
-					.container {
+					.todo-container {
 						height: 52px;
 						padding: 16px 24px;
 
@@ -78,7 +76,7 @@ export const TodoItem: FC<{ todo: Todo }> = ({ todo }) => {
 					//==================================================
 					// Dark mode
 
-					.dark.container {
+					.dark.todo-container {
 						background-color: #25273d;
 						border-bottom-color: #393a4b;
 					}
@@ -93,13 +91,17 @@ export const TodoItem: FC<{ todo: Todo }> = ({ todo }) => {
 
 					// Media
 					@media all and (min-width: 592px) {
-						.container {
+						.todo-container {
 							height: 64px;
 							gap: 24px;
 						}
 
 						.todo-title {
 							font-size: 18px;
+						}
+
+						.todo-container:not(:hover) .delete-icon {
+							display: none;
 						}
 					}
 				`}
@@ -108,8 +110,8 @@ export const TodoItem: FC<{ todo: Todo }> = ({ todo }) => {
 	);
 };
 
-const DeleteIcon: FC<{ todo: Todo; onDeleteTodo?(todo: Todo): void }> = ({ todo, onDeleteTodo }) => {
-	const darkTheme = useAppSelector(selectIsDarkMode);
-	let color = todo.completed ? (darkTheme ? '494C6B' : '#5B5E7E') : '';
-	return <IconCross size={12} color={color} onClick={() => onDeleteTodo?.(todo)} />;
+const DeleteTodoIcon: FC<{ onClick: () => void }> = ({ onClick }) => {
+	const darkMode = useAppSelector(selectIsDarkMode);
+	const color = darkMode ? '#5B5E7E' : '#494C6B';
+	return <IconCross size={12} color={color} onClick={onClick} />;
 };

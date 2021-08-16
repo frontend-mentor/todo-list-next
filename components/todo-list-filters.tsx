@@ -11,12 +11,12 @@ const supportedFilters: { label: string; filter: FilterState }[] = [
 export const TodoListFilters: FC = () => {
 	const dispatch = useAppDispatch();
 
-	const darkTheme = useAppSelector(selectIsDarkMode);
+	const darkMode = useAppSelector(selectIsDarkMode);
 	const filter = useAppSelector(selectFilter);
 
 	return (
 		<>
-			<div className={classNames('filters-container', { dark: darkTheme })}>
+			<div className={classNames('filters-container', { dark: darkMode })}>
 				{supportedFilters.map((item) => (
 					<button
 						key={item.filter}

@@ -10,13 +10,13 @@ export interface TodoCheckmarkProps {
 }
 
 export const TodoCheckmark: FC<TodoCheckmarkProps> = ({ checked, size = 20, onClick }) => {
-	const darkTheme = useAppSelector(selectIsDarkMode);
+	const darkMode = useAppSelector(selectIsDarkMode);
 
 	return (
 		<>
 			<div
 				onClick={onClick}
-				className={classNames('container', { checked, dark: darkTheme })}
+				className={classNames('container', { checked, dark: darkMode })}
 				style={{ width: size, height: size, flex: `0 0 ${size}px` }}
 			>
 				<div className="inner">{checked && <IconCheck />}</div>

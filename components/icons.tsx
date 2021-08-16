@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-export const IconSun: FC<{ size: number; color?: string }> = ({ size = 20, color = 'white' }) => {
+export const IconSun: FC<{ size?: number | string; color?: string }> = ({ size = '100%', color = 'white' }) => {
 	return (
 		<svg width={size} height={size} viewBox={'0 0 26 26'}>
 			<path
@@ -12,7 +12,7 @@ export const IconSun: FC<{ size: number; color?: string }> = ({ size = 20, color
 	);
 };
 
-export const IconMoon: FC<{ size?: number; color?: string }> = ({ size = 20, color = 'white' }) => {
+export const IconMoon: FC<{ size?: number | string; color?: string }> = ({ size = '100%', color = 'white' }) => {
 	return (
 		<svg width={size} height={size} viewBox={'0 0 26 26'}>
 			<path
@@ -36,13 +36,13 @@ export const IconCheck: FC<{ width?: number; height?: number; color?: string }> 
 	);
 };
 
-export const IconCross: FC<{ size?: number; color?: string; onClick: () => void }> = ({
+export const IconCross: FC<{ size?: number; color?: string; onClick?: () => void }> = ({
 	size = 20,
 	color = '#494C6B',
 	onClick,
 }) => {
 	return (
-		<svg width={size} height={size} viewBox={'0 0 18 18'} onClick={() => onClick()} style={{ cursor: 'pointer' }}>
+		<svg width={size} height={size} viewBox={'0 0 18 18'} onClick={() => onClick?.()} style={{ cursor: 'pointer' }}>
 			<path
 				fill={color}
 				fillRule="evenodd"
