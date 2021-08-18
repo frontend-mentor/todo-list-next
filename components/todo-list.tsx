@@ -1,4 +1,4 @@
-import React, { FC, PropsWithChildren, useEffect, useState } from 'react';
+import React, { FC, PropsWithChildren, useEffect } from 'react';
 import classNames from 'classnames';
 
 import { TodoItem } from './todo-item';

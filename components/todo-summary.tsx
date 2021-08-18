@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
 import { removeCompletedTodos, selectIsDarkMode, selectItemsRemaining, useAppDispatch, useAppSelector } from '../state';
-import { TodoListFilters } from './todo-list-filters';
 
 export const TodoSummary: FC = ({ children }) => {
 	const dispatch = useAppDispatch();

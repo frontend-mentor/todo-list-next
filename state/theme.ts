@@ -1,4 +1,3 @@
-import { Action } from './common';
 import { AppState } from './index';
 
 // Models
