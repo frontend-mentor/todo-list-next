@@ -68,7 +68,7 @@ export default function Home() {
 				<meta name="description" content="Todo App" />
 				<link rel="icon" href="/favicon-32x32.png" />
 				<link rel="preconnect" href="https://fonts.googleapis.com" />
-				<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin={'annonymous'} />
+				<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
 				<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap" rel="stylesheet" />
 			</Head>
 			<AppContext.Provider value={{ state, dispatch }}>

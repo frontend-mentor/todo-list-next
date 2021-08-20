@@ -11,9 +11,8 @@ export const TodoItem: FC<{ todo: Todo }> = ({ todo }) => {
 	const [editableTodoTitle, setEditableTodoTitle] = useState(todo.title);
 	const previousTodoTitle = useRef(todo.title);
 
-	const onUpdateTodo = (todo: Todo) => dispatch(updateTodo(todo.id, { title: todo.title }));
-	const onToggleTodo = (todo: Todo) => dispatch(toggleTodo(todo.id, !todo.completed));
-	const onDeleteTodo = (todo: Todo) => dispatch(removeTodo(todo.id));
+	const onToggleTodo = () => dispatch(toggleTodo(todo.id, !todo.completed));
+	const onDeleteTodo = () => dispatch(removeTodo(todo.id));
 
 	const onTodoTitleKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
 		if (e.key === 'Enter') {
@@ -21,7 +20,7 @@ export const TodoItem: FC<{ todo: Todo }> = ({ todo }) => {
 			if (value.length > 0) {
 				setEditableTodoTitle('');
 				previousTodoTitle.current = value;
-				onUpdateTodo({ ...todo, title: value });
+				dispatch(updateTodo(todo.id, { title: value }));
 			}
 		} else if (e.key.startsWith('Esc')) {
 			setEditableTodoTitle(previousTodoTitle.current);
@@ -31,7 +30,7 @@ export const TodoItem: FC<{ todo: Todo }> = ({ todo }) => {
 	return (
 		<>
 			<div className={classNames('todo-container', { dark: darkMode })}>
-				<TodoCheckmark checked={todo.completed} onClick={() => onToggleTodo(todo)} />
+				<TodoCheckmark checked={todo.completed} onClick={() => onToggleTodo()} />
 
 				<input
 					className={classNames('todo-title', { completed: todo.completed })}
@@ -42,7 +41,7 @@ export const TodoItem: FC<{ todo: Todo }> = ({ todo }) => {
 					onFocus={(e) => e.currentTarget.select()}
 				/>
 				<div className="delete-icon">
-					<DeleteTodoIcon onClick={() => onDeleteTodo(todo)} />
+					<DeleteTodoIcon onClick={() => onDeleteTodo()} />
 				</div>
 			</div>
 			<style jsx>

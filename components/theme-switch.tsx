@@ -13,7 +13,7 @@ export const ThemeSwitch: FC = () => {
 	return (
 		<>
 			<button className="theme-switch" onClick={onToggleTheme}>
-				<div className="icon">{darkMode ? <IconSun /> : <IconMoon />}</div>
+				{darkMode ? <IconSun /> : <IconMoon />}
 			</button>
 			<style jsx>
 				{`
@@ -24,15 +24,12 @@ export const ThemeSwitch: FC = () => {
 						cursor: pointer;
 						padding: 0;
 						line-height: 0;
-					}
-
-					.theme-switch .icon {
 						width: 20px;
 						height: 20px;
 					}
 
 					@media all and (min-width: 592px) {
-						.theme-switch .icon {
+						.theme-switch {
 							width: 26px;
 							height: 26px;
 						}
