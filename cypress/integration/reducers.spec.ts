@@ -2,7 +2,7 @@ import {
 	appReducer,
 	FilterState,
 	initialAppState,
-	SupportedThemes,
+	SupportedTheme,
 	themeInitialState,
 	themeReducer,
 	todosInitialState,
@@ -147,11 +147,14 @@ describe('Theme Reducer', () => {
 	});
 
 	it('should change theme', () => {
-		const state = themeReducer(SupportedThemes.Light, {
-			type: '@theme/change',
-			payload: { theme: SupportedThemes.Dark },
+		const initialState = produce(themeInitialState, (draft) => {
+			draft.current = SupportedTheme.Light;
 		});
-		expect(state).to.deep.equal(SupportedThemes.Dark);
+		const state = themeReducer(initialState, {
+			type: '@theme/change',
+			payload: { theme: SupportedTheme.Dark },
+		});
+		expect(state.current).to.deep.equal(SupportedTheme.Dark);
 	});
 });
 

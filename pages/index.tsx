@@ -7,7 +7,7 @@ import bgMobileDark from '../assets/bg-mobile-dark.jpg';
 import bgMobileLight from '../assets/bg-mobile-light.jpg';
 import bgDesktopDark from '../assets/bg-desktop-dark.jpg';
 import bgDesktopLight from '../assets/bg-desktop-light.jpg';
-import { AppContext, appReducer, initialAppState, SupportedThemes } from '../state';
+import { AppContext, appReducer, initialAppState, SupportedTheme } from '../state';
 import { ThemeSwitch } from '../components/theme-switch';
 
 export default function Home() {
@@ -53,7 +53,7 @@ export default function Home() {
 		...initialAppState,
 		todos: { ...initialAppState.todos, todos: initialTodos },
 	});
-	const darkMode = state.theme === SupportedThemes.Dark;
+	const darkMode = state.theme.current === SupportedTheme.Dark;
 
 	useEffect(() => {
 		if (process.env.NODE_ENV === 'development') {

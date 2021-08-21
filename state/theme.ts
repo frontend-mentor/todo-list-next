@@ -1,27 +1,34 @@
 import { AppState } from './index';
 
 // Models
-export enum SupportedThemes {
+export enum SupportedTheme {
+	System = 'system',
 	Light = 'light',
 	Dark = 'dark',
 }
 
-export type ThemeState = SupportedThemes.Light | SupportedThemes.Dark;
+export type ThemeState = {
+	current: SupportedTheme;
+	available: SupportedTheme[];
+};
 
 export interface ChangeThemeAction {
 	type: '@theme/change';
 	payload: {
-		theme: SupportedThemes;
+		theme: SupportedTheme;
 	};
 }
 
-// Reducer
-export const themeInitialState = SupportedThemes.Light;
+export const themeInitialState: ThemeState = {
+	current: SupportedTheme.System,
+	available: [SupportedTheme.System, SupportedTheme.Light, SupportedTheme.Dark],
+};
 
+// Reducer
 export function themeReducer(state = themeInitialState, action: ChangeThemeAction): ThemeState {
 	switch (action.type) {
 		case '@theme/change':
-			return action.payload.theme;
+			return { ...state, current: action.payload.theme };
 		default:
 			return state;
 	}
@@ -29,11 +36,11 @@ export function themeReducer(state = themeInitialState, action: ChangeThemeActio
 
 // Selectors
 export const selectIsDarkMode = (state: AppState) => {
-	return state.theme === SupportedThemes.Dark;
+	return state.theme.current === SupportedTheme.Dark;
 };
 
 // Actions
-export const changeTheme = (theme: ThemeState): ChangeThemeAction => {
+export const changeTheme = (theme: SupportedTheme): ChangeThemeAction => {
 	return {
 		type: '@theme/change',
 		payload: { theme },
